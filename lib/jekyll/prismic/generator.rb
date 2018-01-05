@@ -33,12 +33,13 @@ module Jekyll
         if @collection.config.key? 'permalink'
           self.data['permalink'] = @collection.config['permalink']
         end
-
+        
         self.data['document'] = document
       end
 
       def url_placeholders
         Utils.deep_merge_hashes({
+          :document => @document
           :slug => @document.slug,
           :id => @document.id,
           :uid => @document.uid,
