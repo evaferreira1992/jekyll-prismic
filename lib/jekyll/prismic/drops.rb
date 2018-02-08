@@ -40,8 +40,49 @@ module Jekyll
         def fragments
             PrismicFragmentsDrop.new(@document.fragments, @link_resolver)
         end
-    end
+    
+    
+      module JsonParser
+        class << self
 
+          def slices_parser(json)
+            slices = []
+            json['value'].each do |data|
+              repeat = { 'value' => data['repeat'][0].empty? ? [] : data['repeat'] }
+              non_repeat = { 'value' => data['non-repeat'].empty? ? [] : [data['non-repeat']] }
+              slices << Prismic::Fragments::Slice.new(data['slice_type'], data['slice_label'], group_parser(repeat), group_parser(non_repeat))
+            end
+            Prismic::Fragments::SliceZone.new(slices)
+          end
+        end
+      end
+
+      module Fragments
+        class Slice
+          attr_accessor :repeat
+          attr_accessor :non_repeat
+          def initialize(slice_type, slice_label, repeat, non_repeat)
+            @slice_type = slice_type
+            @slice_label = slice_label
+            @repeat = repeat
+            @non_repeat = non_repeat
+          end
+
+          def as_text
+            @non_repeat.as_text + ' ' + @repeat.as_text
+          end
+
+          def as_html(link_resolver=nil)
+            classes = ['slice']
+            unless (@slice_label.nil?)
+              classes.push(@slice_label)
+            end
+            %[<div data-slicetype="#{@slice_type}" class="#{classes.join(' ')}">#{@non_repeat.as_html(link_resolver)}#{@repeat.as_html(link_resolver)}</div>]
+          end
+        end
+      end
+    end
+    
     class PrismicFragmentsDrop < Liquid::Drop
         def initialize(fragments, link_resolver)
             @fragments = fragments
