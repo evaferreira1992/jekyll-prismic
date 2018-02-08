@@ -103,7 +103,7 @@ module Jekyll
             when ::Prismic::Fragments::Link then
                 PrismicLinkFragmentDrop.new(fragment, @link_resolver)
             when ::Prismic::Fragments::Group then
-                Jekyll.logger.warn "Aca"
+                Jekyll.logger.warn "Aca", "#{fragment}"
                 PrismicGroupFragmentDrop.new(fragment, @link_resolver)
             when ::Prismic::Fragments::GroupDocument then
                 PrismicGroupDocumentFragmentDrop.new(fragment, @link_resolver)
