@@ -58,10 +58,7 @@ module Jekyll
             end
             response = form.page(response.next_page).submit() if response.next_page != nil
 
-            Jekyll.logger.warn "#{@collection_name} tiene: ", "#{response.results_size}"
             Jekyll.logger.warn "Pagina actual: ", "#{response.page}"
-            Jekyll.logger.warn "Total pages: ", "#{response.total_pages}"
-            Jekyll.logger.warn "Res per page: ", "#{response.results_per_page}"
             Jekyll.logger.warn "-----"
 
           end while response.next_page != nil
