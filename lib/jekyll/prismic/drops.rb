@@ -79,6 +79,7 @@ module Jekyll
             end
             %[<div data-slicetype="#{@slice_type}" class="#{classes.join(' ')}">#{@non_repeat.as_html(link_resolver)}#{@repeat.as_html(link_resolver)}</div>]
           end
+          Jekyll.logger.warn "TEST"
         end
       end
     end
