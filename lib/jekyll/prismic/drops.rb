@@ -103,6 +103,7 @@ module Jekyll
             when ::Prismic::Fragments::Link then
                 PrismicLinkFragmentDrop.new(fragment, @link_resolver)
             when ::Prismic::Fragments::Group then
+                Jekyll.logger.warn "Aca"
                 PrismicGroupFragmentDrop.new(fragment, @link_resolver)
             when ::Prismic::Fragments::GroupDocument then
                 PrismicGroupDocumentFragmentDrop.new(fragment, @link_resolver)
@@ -131,6 +132,7 @@ module Jekyll
             when "text" then
                 @fragment.as_text
             else
+                Jekyll.logger.warn "Error: #{attribute}"
                 @fragment.send(attribute.to_sym)
             end
         end
